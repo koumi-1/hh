@@ -1,0 +1,5 @@
+1,Admin User,admin@example.com,Admin,admin123
+2,John Doe,john.doe@example.com,Member,johnpassword
+3,Jane Smith,jane.smith@example.com,Member,jane123
+4,Bob Brown,bob.brown@example.com,Admin,bobsecure
+5,Bob Brown,ease,Admin,use
