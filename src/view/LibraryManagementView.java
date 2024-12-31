@@ -15,9 +15,9 @@ public class LibraryManagementView extends JFrame {
         setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Books", new BooksPanel(bookController, loanController));
-        tabbedPane.addTab("Users", new UsersPanel(userController, loanController));
-        tabbedPane.addTab("Loaned Books", new LoanedBooksPanel(bookController, loanController));
+        tabbedPane.addTab("Books", new BooksPanel(userController, bookController, loanController));
+        tabbedPane.addTab("Users", new UsersPanel(userController)); //, loanController));
+        tabbedPane.addTab("Loaned Books", new LoanedBooksPanel(loanController, bookController));
         tabbedPane.addTab("Returned Books", new ReturnedBooksPanel(bookController, loanController));
 
         add(tabbedPane, BorderLayout.CENTER);

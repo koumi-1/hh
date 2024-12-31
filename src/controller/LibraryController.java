@@ -2,7 +2,7 @@ package controller;
 
 import view.LibraryManagementView;
 
-public class LibraryController {
+    public class LibraryController {
     private final BookController bookController;
     private final UserController userController;
     private final LoanController loanController;

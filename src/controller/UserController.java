@@ -16,22 +16,40 @@ public class UserController {
     }
 
     public List<User> getUsers() {
-        this.loadUsersFromFile();
         return users;
     }
 
-    public void addUser(User user) {
-        users.add(user);
-        saveUsersToFile();
-    }
-
     public User getUserById(int id) {
-        this.loadUsersFromFile();
         return users.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
     }
 
-    public void deleteUser(int userId) {
-        users.removeIf(user -> user.getId() == userId);
+    public boolean addUser(String name, String email, String role, String password) {
+        this.loadUsersFromFile();
+        if (emailExists(email)) return false; // Prevent duplicate emails
+        int newId = users.size() + 1;
+        users.add(new User(newId, name, email, role, password));
+        saveUsersToFile();
+        return true;
+    }
+
+    public boolean editUser(int id, String name, String email, String role, String password) {
+        this.loadUsersFromFile();
+        User user = getUserById(id);
+        if (user != null) {
+            if (!user.getEmail().equalsIgnoreCase(email) && emailExists(email)) return false; // Prevent duplicate emails
+            user.setName(name);
+            user.setEmail(email);
+            user.setRole(role);
+            user.setPassword(password);
+            saveUsersToFile();
+            return true;
+        }
+        return false;
+    }
+
+    public void deleteUser(int id) {
+        this.loadUsersFromFile();
+        users.removeIf(user -> user.getId() == id);
         saveUsersToFile();
     }
 
@@ -47,13 +65,14 @@ public class UserController {
     }
 
     private void loadUsersFromFile() {
-        users.addAll(CSVUtils.readCSV(USERS_FILE).stream()
+        this.users.clear();
+        users.addAll(CSVUtils.readFromCSV(USERS_FILE).stream()
                 .map(row -> new User(
                         Integer.parseInt(row[0]), // ID
                         row[1],                  // Name
                         row[2],                  // Email
                         row[3],                  // Role
-                        row.length > 4 ? row[4] : "" // Password (optional for legacy rows)
+                        row[4]                   // Password
                 ))
                 .toList());
     }
@@ -68,6 +87,6 @@ public class UserController {
                         user.getPassword()
                 })
                 .toList();
-        CSVUtils.writeCSV(USERS_FILE, data);
+        CSVUtils.writeToCSV(USERS_FILE, data);
     }
 }

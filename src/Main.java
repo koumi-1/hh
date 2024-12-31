@@ -9,7 +9,7 @@ public class Main {
         // Initialize Controllers
         BookController bookController = new BookController();
         UserController userController = new UserController();
-        LoanController loanController = new LoanController();
+        LoanController loanController = new LoanController(bookController, userController);
         // Initialize LoginController
         LoginController loginController = new LoginController(userController);
 
