@@ -3,14 +3,18 @@ package controller;
 import model.User;
 import utils.CSVUtils;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
-    private static final String USERS_FILE = "resources/users.csv";
+//    Paths.get(Main.class.getResource("/books.csv").getPath());
+    private static final String USERS_FILE = Paths.get(UserController.class.getResource("/books.csv").getPath()).toString();
+//    private static final String USERS_FILE_ = "resources/users.csv";
     private final List<User> users;
 
     public UserController() {
+        System.out.println(USERS_FILE);
         users = new ArrayList<>();
         loadUsersFromFile();
     }
